@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/guisoares/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/guisoares/catkin_ws/src/VINS-Fusion/camera_models/include/**",
+        "/home/guisoares/catkin_ws/src/gazebo_ros_link_attacher/include/**",
+        "/home/guisoares/catkin_ws/src/mav_comm/mav_msgs/include/**",
+        "/home/guisoares/catkin_ws/src/mav_comm/mav_planning_msgs/include/**",
+        "/home/guisoares/catkin_ws/src/mavlink/include/**",
+        "/home/guisoares/catkin_ws/src/sitl_gazebo/include/**",
+        "/home/guisoares/catkin_ws/src/orb_slam3_ros_wrapper/include/**",
+        "/home/guisoares/catkin_ws/src/swarm_in_blocks/swarm_collision_avoidance/include/**",
+        "/home/guisoares/catkin_ws/src/cbr_2022_onboard/t265/include/**",
+        "/home/guisoares/catkin_ws/src/mavros_offboard_control/uav_control/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
