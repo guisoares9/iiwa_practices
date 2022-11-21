@@ -164,9 +164,9 @@ def add_slider():
             j += 1
 
 # move robot to the desird joint position with a joint motion planning
-def move(des_position, t_move = 5):
+def move(des_position, t_move = 0.1):
     # trajectory steps and time to move
-    steps = 100
+    steps = 50
     dt = t_move/steps
 
     # joint motion planning
