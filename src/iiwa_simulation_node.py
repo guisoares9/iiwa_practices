@@ -157,7 +157,7 @@ def add_slider():
                     max=np.round(np.rad2deg(link.qlim[1]), 2),
                     step=1,
                     value=np.round(np.rad2deg(kuka_ros.kuka_robot_urdf.q[j]), 2),
-                    desc="Kuka LBR Iiwa 14 Joint " + str(j),
+                    desc="Joint " + str(j),
                     unit="&#176;",
                 )
             )
