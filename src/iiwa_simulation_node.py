@@ -38,6 +38,7 @@ class KukaSimulatedROS:
 
         #   Make kuka_iiwa node
         rospy.init_node('kuka_iiwa', disable_signals=True)
+        rospy.loginfo("kuka_iiwa node started")
         rate = rospy.Rate(100) #    100hz update rate.
 
         # Kuka state
@@ -72,9 +73,9 @@ class KukaSimulatedROS:
         data = msg.data
         command = data.split(' ')[0]
         args = data.split(' ')[1:]
-        if command == "SetPosition":
+        if command == "setPosition":
             if len(args) != 7:
-                rospy.logerr("SetPosition command requires 7 arguments")
+                rospy.logerr("setPosition command requires 7 arguments")
                 return
             
             # get desired joint position
@@ -96,7 +97,11 @@ class KukaSimulatedROS:
         self.JointPosition = [round(qi * 180 / pi, 3) for qi in self.kuka_robot_urdf.q]
 
         # update tool position
-        self.ToolPosition = self.kuka_robot_urdf.fkine(self.JointPosition).t
+        self.tool_position_t = self.kuka_robot_urdf.fkine(self.kuka_robot_urdf.q).t
+        self.tool_position_r = self.kuka_robot_urdf.fkine(self.kuka_robot_urdf.q).rpy(order='zyx')
+
+        self.tool_position_t = np.around(self.tool_position_t, decimals=3)
+        self.tool_position_r = np.around(self.tool_position_r, decimals=3)
 
         # update joint velocity
         # TODO
@@ -106,7 +111,7 @@ class KukaSimulatedROS:
 
         #  publish robot joint states
         self.pub_JointPosition.publish(self.list_to_string(self.JointPosition))
-        self.pub_ToolPosition.publish(self.list_to_string(self.ToolPosition))
+        self.pub_ToolPosition.publish(self.list_to_string(np.hstack((self.tool_position_t, self.tool_position_r))))
         # self.pub_ToolForce.publish(self.list_to_string(self.ToolForce))
         # self.pub_ToolTorque.publish(self.list_to_string(self.ToolTorque))
         # self.pub_JointAcceleration.publish(self.list_to_string(self.JointAcceleration))
@@ -129,7 +134,7 @@ kuka_ros = KukaSimulatedROS()
 
 # Launch the simulator Swift
 env = swift.Swift()
-env.launch()    
+env.launch(browser='firefox')    
 
 # Add the robot to the simulator
 env.add(kuka_ros.kuka_robot_urdf)
@@ -164,10 +169,12 @@ def add_slider():
             j += 1
 
 # move robot to the desird joint position with a joint motion planning
-def move(des_position, t_move = 0.1):
+# w in degrees/s
+def move(des_position, w = 20):
     # trajectory steps and time to move
-    steps = 50
-    dt = t_move/steps
+    steps = 500
+    t_move = np.linalg.norm(np.deg2rad(np.array(des_position, dtype=np.float32)) - kuka_ros.kuka_robot_urdf.q)/np.deg2rad(w)
+    dt = t_move/(steps)
 
     # joint motion planning
     q_traj = rtb.jtraj(kuka_ros.kuka_robot_urdf.q, np.deg2rad(np.array(des_position, dtype=np.float32)), steps)
@@ -189,7 +196,7 @@ while True:
     
     if kuka_ros.move_flag:
         # update flags for busy state
-        kuka_ros.isReadyToMove = False
+        # kuka_ros.isReadyToMove = False
         kuka_ros.isFinished = False
 
         # move robot on simulation
@@ -198,10 +205,10 @@ while True:
 
         # update flags for ready state
         kuka_ros.move_flag = False
-        kuka_ros.isReadyToMove = True
+        # kuka_ros.isReadyToMove = True
         kuka_ros.isFinished = True
 
     # Update the environment with the new robot pose
-    env.step(0)
+    env.step(0.05)
 
-    time.sleep(0.01)
+    # time.sleep(0.05)
