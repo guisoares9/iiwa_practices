@@ -25,7 +25,7 @@ rtb.RevoluteDH( a=0, alpha=0, d=0.126, offset=pi/2)], name='KUKA LBR iiwa 14 R82
 # cartesian pose
 T0 = SE3(0.459, -0.389, 0.329) * SE3.RPY([2.996, 0.183, 1.697], order='zyx')
 
-T1 = SE3(0.557, -0.1, 0.152) * SE3.RPY([2.788, -0.446, 2.125], order='zyx')
+T1 = SE3(0.557, -0.1, 0.152) *  SE3.RPY([2.996, 0.183, 1.697], order='zyx')
 
 # joint trajectory
 t = np.arange(0, 2, 0.10)

@@ -37,8 +37,8 @@ class KukaSimulatedROS:
         self.pub_OperatorAck = rospy.Publisher('OperatorAck', String, queue_size=10)
 
         #   Make kuka_iiwa node
-        rospy.init_node('kuka_iiwa', disable_signals=True)
-        rospy.loginfo("kuka_iiwa node started")
+        rospy.init_node('iiwa_simulation', disable_signals=True)
+        rospy.loginfo("iiwa_simulation node started")
         rate = rospy.Rate(100) #    100hz update rate.
 
         # Kuka state

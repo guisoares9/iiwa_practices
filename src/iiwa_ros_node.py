@@ -14,7 +14,7 @@ version = 'V15032017++'
 import _thread, time, os
 import rospy
 from std_msgs.msg import String
-
+import traceback
 
 def cl_black(msge): return '\033[30m'+msge+'\033[0m'
 def cl_red(msge): return '\033[31m'+msge+'\033[0m'
@@ -92,6 +92,8 @@ class iiwa_socket:
             sock.bind(server_address)
         except:
             print(cl_red('Error: ') + "Connection for KUKA cannot assign requested address:", ip, port)
+            print("Please check the IP address and port number in conf.txt file")
+            # traceback.print_exc()
             os._exit(-1)
 
 

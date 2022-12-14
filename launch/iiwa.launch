@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <!-- Launch simulation node -->
+    <node name="iiwa_simulation" pkg="iiwa_practices" type="iiwa_ros_node.py" output="screen" />
+</launch>
